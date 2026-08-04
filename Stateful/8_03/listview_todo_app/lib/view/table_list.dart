@@ -40,35 +40,51 @@ class _TableListState extends State<TableList> {
       ),
       body: Center(
         child: ListView.builder(
-          itemCount: todoList.length,
+          itemCount: todoList.length,       // 개수 알려줌
           itemBuilder: (context, index) {   // 하나 만들고 메모리 추가하는 기능
-            return GestureDetector(
-              onTap: () {
-                Message.workList = todoList[index].workList;    // message.dart에 들어감 저장소로 넣어주고 문자 사용
-                Message.imagePath = todoList[index].imagePath;  // message.dart에 들어가고 이미지를 사용
-                Navigator.pushNamed(
-                  context, 
-                  '/detail',
-                );
+            return Dismissible(
+              direction: DismissDirection.endToStart, // 우에서 좌로 땡길때 없어지는 방향 기능
+              key: ValueKey(todoList[index]), // 사진+책구매 0번, 사진+철수와 약속 1번
+              onDismissed: (direction) {
+                todoList.remove(todoList[index]);
+                setState(() {});
               },
-              child: SizedBox(    //sizedbox에 widget 추가
-                height: 100,
-                child: Card(    // card에 sizedbox 부여
-                color: index % 2 == 0 // card는 index이기 때문에 삼항연산자를 사용해 짝수면 green 홀수면 red로 입혀줌
-                ? Colors.green
-                : Colors.red,
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Image.asset(   // image에 padding 부여
-                          todoList[index].imagePath,  // property, 메서드, 생성자
+              background: Container(
+                color:  Colors.red,
+                alignment: Alignment.centerRight, // 정렬 기능
+                child: Icon(
+                  Icons.delete_forever,
+                  size: 50,
+                ),
+              ),
+              child: GestureDetector(       // gestureDetector에 widget(dismissible) 추가
+                onTap: () {
+                  Message.workList = todoList[index].workList;    // message.dart에 들어감 저장소로 넣어주고 문자열 사용
+                  Message.imagePath = todoList[index].imagePath;  // message.dart에 들어가고 이미지를 사용
+                  Navigator.pushNamed(
+                    context, 
+                    '/detail',
+                  );
+                },
+                child: SizedBox(    //sizedbox에 widget 추가
+                  height: 100,
+                  child: Card(    // card에 sizedbox 부여 // 카드 모양대로 데이터 받은거를 구현
+                  color: index % 2 == 0 // card는 index이기 때문에 삼항연산자를 사용해 짝수면 green 홀수면 red로 입혀줌
+                  ? Colors.green
+                  : Colors.red,
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Image.asset(   // image에 padding 부여
+                            todoList[index].imagePath,  // property, 메서드, 생성자
+                          ),
                         ),
-                      ),
-                      Text(
-                        '   ${todoList[index].workList}',
-                      ),
-                    ],
+                        Text(
+                          '   ${todoList[index].workList}',
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
