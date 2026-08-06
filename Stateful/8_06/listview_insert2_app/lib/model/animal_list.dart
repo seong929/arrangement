@@ -3,6 +3,7 @@ class Animal{
   String animalName;
   String kind;
   bool flyExist;
+  
 
   Animal(
     {

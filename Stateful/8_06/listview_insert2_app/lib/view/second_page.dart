@@ -4,7 +4,9 @@ import 'package:listview_insert_app/model/animal_list.dart';
 
 class SecondPage extends StatefulWidget {
   final List<Animal> list;
-  const SecondPage({super.key, required this.list});
+  final Function() onAddAnimal;
+
+  const SecondPage({super.key, required this.list, required this.onAddAnimal});
 
   @override
   State<SecondPage> createState() => _SecondPageState();
@@ -153,6 +155,8 @@ class _SecondPageState extends State<SecondPage> {
               onPressed: () {
                 widget.list.add(animal);
                 animalColor.add(Colors.yellow);
+
+                widget.onAddAnimal();
 
                 // 초기화
                 nameController.text = '';

@@ -122,7 +122,12 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {  // t
         controller: controller,
         children: [
           FirstPage(list: animalList),
-          SecondPage(list: animalList), // 다시 만드는거기 때문에 탭에서 돌아오면 체크가 없어져있음 
+          SecondPage(
+            list: animalList,
+            onAddAnimal: () {
+              setState(() {});
+            },
+          ), // 다시 만드는거기 때문에 탭에서 돌아오면 체크가 없어져있음 
         ],
       ),
     );
