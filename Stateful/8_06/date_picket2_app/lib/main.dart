@@ -13,6 +13,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      locale: Locale('ko', 'KR'),
+      
       localizationsDelegates: [
         GlobalCupertinoLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,

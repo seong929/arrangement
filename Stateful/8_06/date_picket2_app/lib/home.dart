@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -12,7 +13,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   // Property
   String currentDateTime = '';
-  late DateTime chosenDateTime;
+  DateTime? chosenDateTime;
   final bool _isRunning = true;
   
   @override
@@ -27,10 +28,10 @@ class _HomeState extends State<Home> {
   }
 
   void _addItem(){
-    final DateTime now = DateTime.now();
+    final DateTime now = DateTime.now();  // Date.Time은 cpu가 알고있음
     currentDateTime = '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')} '
-                      '${_weekDayToString(now.weekday)} ' '${now.hour.toString().padLeft(2, '0')}:' '${now.minute.toString().padLeft(2, '0')}:'
-    '${now.second.toString().padLeft(2, '0')}';
+                      '${_weekDayToString(now.weekday)} ' '${now.hour.toString().padLeft(2, '0')}:' 
+                      '${now.minute.toString().padLeft(2, '0')}:''${now.second.toString().padLeft(2, '0')}';
     setState(() {});
   }
   
@@ -54,7 +55,7 @@ class _HomeState extends State<Home> {
         dateName = '일';
     }
     
-    return dateName;
+    return dateName;  // 이 함수를 String으로 선언했기 때문에 return도 String으로 해야함
   }
 
 
@@ -75,9 +76,35 @@ class _HomeState extends State<Home> {
                 fontWeight: FontWeight.bold,
               ),
             ),
+            SizedBox(
+              width: 300,
+              height: 200,
+              child: CupertinoDatePicker(
+                initialDateTime: DateTime.now(),  // 현재 일자가 찍히는 기능
+                use24hFormat: true,
+                onDateTimeChanged: (value) {
+                  chosenDateTime = value;
+                  setState(() {});
+                },
+              ),
+            ),
+            Text(
+              '선택시간 : ${chosenDateTime != null ? _chosenItem(chosenDateTime!) : '시간을 선택 하세요'}'
+            )
           ],
         ),
       ),
     );
+  } // build
+
+  // --- Functions --- 
+  String _chosenItem(DateTime now1){
+    String chosendDateTime1 =  '${now1.year}-${now1.month.toString().padLeft(2, '0')}-${now1.day.toString().padLeft(2, '0')} '
+                                '${_weekDayToString(now1.weekday)} ' '${now1.hour.toString().padLeft(2, '0')}:' 
+                                '${now1.minute.toString().padLeft(2, '0')}:';
+    return chosendDateTime1;
   }
-}
+
+
+
+} // class
